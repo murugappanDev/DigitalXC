@@ -56,9 +56,7 @@ const App = () => {
       const sheetData: any = XLSX.utils.sheet_to_json(
         workbook.Sheets[sheetName]
       );
-
-      console.log(sheetData, "sheetData");
-
+      
       const isCurrentEmployeeData = setData === setCurrentEmployeesData;
       const requiredFields = isCurrentEmployeeData
         ? CurrentEmployeesRequiredFields
@@ -112,7 +110,6 @@ const App = () => {
     const workbook = XLSX.utils.book_new();
     const date = new Date();
     const getCurrentYear = date.getFullYear();
-    console.log(getCurrentYear);
     XLSX.utils.book_append_sheet(
       workbook,
       worksheet,

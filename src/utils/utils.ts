@@ -17,8 +17,6 @@ export const getExistingAssignments = (
   currentEmployees: CurrentEmployees[],
   previousAssignments: PreviousAssignments[]
 ) => {
-  console.log(previousAssignments, "previousAssignments");
-
   const currentEmployeeEmails = new Set(
     currentEmployees.map((emp) => emp.Employee_EmailID)
   );
@@ -37,8 +35,6 @@ export const shuffleForGift = (
   employees: CurrentEmployees[],
   previousAssignments: Record<string, string>
 ) => {
-
-
   let available: CurrentEmployees[] = [...employees];
   let result = [];
   for (let employee of employees) {
