@@ -5,7 +5,7 @@ import {
   getExistingAssignments,
   shuffleForGift,
   validateCSVData,
-} from "./utils/utils.js";
+} from "./utils/utils";
 
 interface Employee {
   Employee_Name: string;
@@ -53,13 +53,17 @@ const App = () => {
         type: "array",
       });
       const sheetName = workbook.SheetNames[0];
-      const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+      const sheetData: any = XLSX.utils.sheet_to_json(
+        workbook.Sheets[sheetName]
+      );
+
+      console.log(sheetData, "sheetData");
 
       const isCurrentEmployeeData = setData === setCurrentEmployeesData;
       const requiredFields = isCurrentEmployeeData
         ? CurrentEmployeesRequiredFields
         : PreviousSantaAssignRequiredFields;
-        
+
       if (
         setData === setPreviousAssignmentsData &&
         !validateCSVData(sheetData, requiredFields)
@@ -87,13 +91,12 @@ const App = () => {
         previousAssignmentsData
       );
 
-      const previousAssignmentsMap = new Map(
+      const previousAssignmentsMap: any = Object.fromEntries(
         validSecretSantaAssignments.map((entry: any) => [
           entry.Employee_EmailID,
           entry.Secret_Child_EmailID,
         ])
       );
-
       const shuffledAssignments = shuffleForGift(
         [...currentEmployeesData],
         previousAssignmentsMap
@@ -103,7 +106,7 @@ const App = () => {
     }, 1000);
   };
 
-//Downloads the generated Secret Santa assignments as a CSV file.
+  //Downloads the generated Secret Santa assignments as a CSV file.
   const downloadCSV = () => {
     const worksheet = XLSX.utils.json_to_sheet(assignments);
     const workbook = XLSX.utils.book_new();

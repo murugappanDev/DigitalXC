@@ -1,10 +1,24 @@
+interface CurrentEmployees {
+  Employee_Name: string;
+  Employee_EmailID: string;
+}
+
+interface PreviousAssignments {
+  Employee_Name: string;
+  Employee_EmailID: string;
+  Secret_Child_Name: string;
+  Secret_Child_EmailID: string;
+}
+// interface PreviousAssignmentsData
 /**
   Filters previous Secret Santa assignments to retain only those
   belonging to employees who are still part of the current organization. **/
 export const getExistingAssignments = (
-  currentEmployees,
-  previousAssignments
+  currentEmployees: CurrentEmployees[],
+  previousAssignments: PreviousAssignments[]
 ) => {
+  console.log(previousAssignments, "previousAssignments");
+
   const currentEmployeeEmails = new Set(
     currentEmployees.map((emp) => emp.Employee_EmailID)
   );
@@ -19,17 +33,20 @@ export const getExistingAssignments = (
   self-assignment and ensuring that no one receives the same recipient
   as the previous year. 
   **/
- export const shuffleForGift = (employees, previousAssignments) => {
-  let available = [...employees];
+export const shuffleForGift = (
+  employees: CurrentEmployees[],
+  previousAssignments: Record<string, string>
+) => {
+
+
+  let available: CurrentEmployees[] = [...employees];
   let result = [];
   for (let employee of employees) {
-    
     // Filter choices to exclude self-assignment and previous year's assignment
     let choices = available.filter(
       (e) =>
         e.Employee_EmailID !== employee.Employee_EmailID &&
-        previousAssignments.get(employee.Employee_EmailID) !==
-          e.Employee_EmailID
+        previousAssignments[employee.Employee_EmailID] !== e.Employee_EmailID
     );
 
     // If no valid choices are available, return an empty list and alert the user
@@ -60,6 +77,6 @@ export const getExistingAssignments = (
 /**
   Validates if all required fields exist in each entry of the given CSV data.
  **/
-export const validateCSVData = (data, requiredFields) => {
+export const validateCSVData = (data: [], requiredFields: string[]) => {
   return data.every((entry) => requiredFields.every((field) => field in entry));
 };
